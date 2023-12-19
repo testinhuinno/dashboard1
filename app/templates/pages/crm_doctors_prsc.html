@@ -1,0 +1,76 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2 light-text"> CRM DOCTORS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px;height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="row light-text">
+
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <form class="form-inline" method="POST" action="{{ url_for('func_crm_doctors') }}">
+                    <div class="form-group d-flex">
+                        <div class="input-group">
+                            <select name="the_name" class="selectpicker form-control">
+                              {% for i in the_name_lst %}
+                              <option value="{{ i }}">{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style = "margin-left:20px;" >LOAD</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="row light-text mt-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                    <div>{{ the_active_map|safe }}</div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <h4>{{the_name}}</h4>
+
+            </div>
+        </div>
+
+
+       <div><hr class="light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 light-text">
+            <form class="form-inline" method="POST" action="{{ url_for('func_crm_doctors') }}">
+                    <div class="form-group d-flex">
+                        <div class="input-group">
+                            <select name="the_cate" class="selectpicker form-control">
+                              {% for i in the_cate_lst %}
+                              <option value="{{ i }}">{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style = "margin-left:20px;" >LOAD</button>
+                    </div>
+                </form>
+
+                <div class="col-xl-12 col-sm-3 mb-xl-0 mb-4">
+                    <h2 class = "fs-3 ">[MONTHLY PRESCRIPTIONS] </h2>
+                    <div id = "the_graph"></div>
+                </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+    var graphs = {{the_graph | safe}};
+    Plotly.plot('the_graph',graphs,{});
+
+</script>
+
+{% endblock content %}

@@ -1,0 +1,126 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2"> MEMO REALTIME</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+
+        <div class="row light-text">
+            <h2 class = "fs-3">STATUS</h2>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100" >
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary d-flex">
+                            <h2 class="mb-0">기준 시간</h2>
+                            <a style = 'margin-left:2%' href="{{url_for('func_realtime')}}">
+                                <img class = "rounded float-start" src="{{url_for('static', filename='img/reload.png')}}" style = "width:40px; height:40px;">
+                            </a>
+                        </div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{date_today}}</h3></div>
+                        <div class="text-end text-secondary"><b>{{the_time}}</b></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">처방건</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{prsc_now}} 건</h3></div>
+                        <div class="text-end text-secondary">전일 대비 <span class="text-success text-sm font-weight-bolder">{{prsc_change}}%</span> ({{prsc_yest}}건)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">처방병원</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{hosp_now}} 곳</h3></div>
+                        <div class="text-end text-secondary">전일 대비 <span class="text-success text-sm font-weight-bolder">{{hosp_change}}%</span> ({{hosp_yest}}건)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row light-text mt-4 mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">처방교수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{doct_now}} 명</h3></div>
+                        <div class="text-end text-secondary">전일 대비 <span class="text-success text-sm font-weight-bolder">{{doct_change}}%</span> ({{doct_yest}}건)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">데이터 업로드</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{upld_now}} 건</h3></div>
+                        <div class="text-end text-secondary">전일 대비 <span class="text-success text-sm font-weight-bolder">{{upld_change}}%</span> ({{upld_yest}}건)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">레포트 제공</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{rept_now}} 건</h3></div>
+                        <div class="text-end text-secondary">전일 대비 <span class="text-success text-sm font-weight-bolder">{{rept_change}}%</span> ({{rept_yest}}건)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="flex row light-text mt-4 mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <h2 class = "fs-3">HOSPITALS</h2>
+                    <div>{{ the_active_map|safe }}</div>
+            </div>
+
+            <div class="col-xl-8 col-sm-6 mb-xl-0 mb-4">
+                <h2 class = "fs-3">PRESCRIPTIONS</h2>
+                <div id = "the_prsc_chart"></div>
+            </div>
+
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <h2 class = "fs-3">DATA UPLOAD</h2>
+                <div id = "the_upld_chart"></div>
+            </div>
+
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <h2 class = "fs-3">REPORT CREATION</h2>
+                <div id = "the_rept_chart"></div>
+            </div>
+
+
+        </div>
+        <div><hr class = "light-hr"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{the_prsc_chart | safe}};
+    Plotly.plot('the_prsc_chart',graphs,{});
+    var graphs = {{the_upld_chart | safe}};
+    Plotly.plot('the_upld_chart',graphs,{});
+    var graphs = {{the_rept_chart | safe}};
+    Plotly.plot('the_rept_chart',graphs,{});
+</script>
+
+{% endblock content%}

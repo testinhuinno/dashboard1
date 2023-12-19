@@ -1,0 +1,153 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2 light-text"> CRM DOCTORS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px;height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="row light-text">
+
+            <div class="col-xl-12 mb-4">
+                <form class="col-xl-8 form-inline d-flex" method="POST" action="{{ url_for('func_crm_doctor_select')}}">
+                    <div class="form-group d-flex">
+                        <div class="input-group">
+                            <select name="the_name" class="selectpicker form-control">
+                              {% for i in the_name_lst %}
+                              <option value="{{ i }}">{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style = "margin-left:20px;" >LOAD</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+
+        <div class="row light-text">
+            <h4>DOCTOR'S INFORMATION</h4>
+            <div class="col-xl-4 col-sm-6 mb-xl-0">
+                    <div>{{ the_active_map|safe }}</div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0">
+                <table class = 'table light-text'>
+                    <tbody>
+                        <tr>
+                            <th scope="row">병원구분</th>
+                            <td>{{hosp_type}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">병원명</th>
+                            <td>{{hosp_name}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">교수명</th>
+                            <td>{{doct_name}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">최초 처방일자</th>
+                            <td>{{min_date}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">최근 처방일자</th>
+                            <td>{{max_date}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">미 처방기간</th>
+                            <td>{{duration}}</td>
+                        </tr>
+                     </tbody>
+                </table>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 ml-2">
+                <table class = 'table light-text'>
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <th scope="row">처방수</th>
+                            <th scope="row">처방 순위</th>
+                            <th scope="row">총 처방 인원수</th>
+                            <th scope="row">레포트 수</th>
+                            <th scope="row">레포트 순위</th>
+                            <th scope="row">총 레포트 인원수</th>
+                        </tr>
+                        <tr>
+                            <th scope="row">전체 기간</th>
+                            <td>{{prsc_cnt}} 건</td>
+                            <td>{{the_rank}} 위</td>
+                            <td>{{tot_rank}} 명</td>
+                            <td>{{rept_cnt}} 건</td>
+                            <td>{{the_rank_rept}} 위</td>
+                            <td>{{tot_rank_rept}} 명</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">이번 년도</th>
+                            <td>{{year_cnt}} 건</td>
+                            <td>{{year_rank}} 위</td>
+                            <td>{{year_tot}} 명</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">이번 분기</th>
+                            <td>{{quarter_cnt}} 건</td>
+                            <td>{{quarter_rank}} 위</td>
+                            <td>{{quarter_tot}} 명</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">이번 달</th>
+                            <td>{{month_cnt}} 건</td>
+                            <td>{{month_rank}} 위</td>
+                            <td>{{month_tot}} 명</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">이번 주</th>
+                            <td>{{week_cnt}} 건</td>
+                            <td>{{week_rank}} 위</td>
+                            <td>{{week_tot}} 명</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+
+       <div><hr class="light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 light-text">
+            <h2 class = "fs-3 ">PRESCRIPTIONS BY PERIODS</h2>
+            <div class="col-xl-12 col-sm-3 mb-xl-0 mb-4">
+                <h4 class = "fs-4">MONTHLY</h4>
+                <div id = "the_graph_month"></div>
+            </div>
+            <div class="col-xl-12 col-sm-3 mb-xl-0 mb-4">
+                <h4 class = "fs-4">WEEKLY</h4>
+                <div id = "the_graph_week"></div>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+    var graphs = {{the_graph_month | safe}};
+    Plotly.plot('the_graph_month',graphs,{});
+    var graphs = {{the_graph_week | safe}};
+    Plotly.plot('the_graph_week',graphs,{});
+</script>
+
+{% endblock content %}

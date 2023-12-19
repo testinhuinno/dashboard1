@@ -1,0 +1,123 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2">STATUS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="flex row light-text mt-4 mb-4">
+            <h4 class = "fs-3">LAST WEEK : {{week_last}}</h4>
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <table class="table">
+                    <thead>
+                        <tr class="table table-dark">
+                            <th scope="col">기간</th>
+                            <th scope="col">병원종수</th>
+                            <th scope="col">병원수</th>
+                            <th scope="col">의사수</th>
+                            <th scope="col">처방수</th>
+                            <th scope="col">업로드수</th>
+                            <th scope="col">레포트수</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{df_week_last[0] | safe }}</td>
+                            <td>{{df_week_last[1] | safe }}</td>
+                            <td>{{df_week_last[2] | safe }}</td>
+                            <td>{{df_week_last[3] | safe }}</td>
+                            <td>{{df_week_last[4] | safe }}</td>
+                            <td>{{df_week_last[5] | int }}</td>
+                            <td>{{df_week_last[6] | int }}</td>
+                        </tr>
+
+                        </tbody>
+                </table>
+                <h4 class = "fs-5">BY HOSPITAL</h4>
+                <div id = "graph_last_week_hosp"></div>
+                <h4 class = "fs-5">BY DOCTORS</h4>
+                <div id = "graph_last_week_doct"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="flex row light-text mt-4 mb-4">
+            <h4 class = "fs-3">THIS WEEK : {{this_week}}</h4>
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <table class="table">
+                    <thead>
+                        <tr class="table table-dark">
+                            <th scope="col">기간</th>
+                            <th scope="col">병원종수</th>
+                            <th scope="col">병원수</th>
+                            <th scope="col">의사수</th>
+                            <th scope="col">처방수</th>
+                            <th scope="col">업로드수</th>
+                            <th scope="col">레포트수</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{df_this_week[0] | safe }}</td>
+                            <td>{{df_this_week[1] | safe }}</td>
+                            <td>{{df_this_week[2] | safe }}</td>
+                            <td>{{df_this_week[3] | safe }}</td>
+                            <td>{{df_this_week[4] | safe }}</td>
+                            <td>{{df_this_week[5] | int }}</td>
+                            <td>{{df_this_week[6] | int }}</td>
+                        </tr>
+
+                        </tbody>
+                </table>
+                <h4 class = "fs-5">BY HOSPITAL</h4>
+                <div id = "graph_this_week_hosp"></div>
+                <h4 class = "fs-5">BY DOCTORS</h4>
+                <div id = "graph_this_week_doct"></div>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+
+<script>
+
+    var graphs = {{graph_this_week_hosp | safe}};
+    Plotly.plot('graph_this_week_hosp',graphs,{});
+
+    var graphs = {{graph_this_week_doct | safe}};
+    Plotly.plot('graph_this_week_doct',graphs,{});
+
+    var graphs = {{graph_last_week_hosp | safe}};
+    Plotly.plot('graph_last_week_hosp',graphs,{});
+
+    var graphs = {{graph_last_week_doct | safe}};
+    Plotly.plot('graph_last_week_doct',graphs,{});
+
+</script>
+<!--    var graphs = {{GRAPH_REV | safe}};-->
+<!--    Plotly.plot('GRAPH_REV',graphs,{});-->
+
+<!--    var graphs = {{GRAPH_ANI | safe}};-->
+<!--    Plotly.plot('GRAPH_ANI',graphs,{});-->
+
+<!--    function setThePeriodAndSubmit(thePeriodValue) {-->
+<!--        document.getElementById('hidden_the_period').value = thePeriodValue;-->
+<!--        document.querySelector('form').submit();-->
+<!--    }-->
+
+
+
+{% endblock %}

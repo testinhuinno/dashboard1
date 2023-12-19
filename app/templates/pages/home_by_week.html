@@ -1,0 +1,126 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2">WEEKLY STATUS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 light-text d-flex">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <h4>{{the_week}}</h4>
+            </div>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <form class="form-inline" method="POST" action="{{ url_for('func_home_week')}}">
+                    <div class="form-group d-flex">
+                        <div class="input-group">
+                            <select name="the_range" class="selectpicker form-control">
+                              {% for i in range_lst %}
+                              <option value="{{ i }}">{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style = "margin-left:20px;" >LOAD</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row light-text mt-4 mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">처방수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{prsc_now}} 건</h3></div>
+                        <div class="text-end text-secondary">지난 주 대비 <span class="text-success text-sm font-weight-bolder">{{prsc_now_pct}}%</span> ({{prsc_prev}}건)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">업로드 수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{upld_now}} 건</h3></div>
+                        <div class="text-end text-secondary">지난 주 대비 <span class="text-success text-sm font-weight-bolder">{{upld_now_pct}}%</span> ({{upld_prev}}건)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">레포트 제공수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{rept_now}} 건</h3></div>
+                        <div class="text-end text-secondary">지난 주 대비 <span class="text-success text-sm font-weight-bolder">{{rept_now_pct}}%</span> ({{rept_prev}}건)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="row light-text">
+            <div class="col-xl-12 mb-4">
+                <h4>TOP 10 HOSPITALS</h4>
+                <div id="fig_hosp"></div>
+            </div>
+
+            <div class="col-xl-12 mb-4">
+                <h4>TOP 10 DOCTORS</h4>
+                <div id="fig_doct"></div>
+            </div>
+
+            <div class="col-xl-12 mb-4">
+                <h4>TID COUNT BY HOSPITALS</h4>
+                <div id="fig_tree_hosp"></div>
+            </div>
+
+            <div><hr class = "light-hr"></div>
+
+            <div class="col-xl-12 mb-4">
+                <h4>TID COUNT BY DOCTORS</h4>
+                <div id="fig_tree_doct"></div>
+            </div>
+
+            <div><hr class = "light-hr"></div>
+
+            <div class="col-xl-12 mb-4">
+                <h4>PRESCRIPTION BY PRODUCTS</h4>
+                <div id="fig_pie"></div>
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{fig_pie | safe}};
+    Plotly.plot('fig_pie',graphs,{});
+
+    var graphs = {{fig_hosp | safe}};
+    Plotly.plot('fig_hosp',graphs,{});
+    var graphs = {{fig_doct | safe}};
+    Plotly.plot('fig_doct',graphs,{});
+
+    var graphs = {{fig_tree_hosp | safe}};
+    Plotly.plot('fig_tree_hosp',graphs,{});
+    var graphs = {{fig_tree_doct | safe}};
+    Plotly.plot('fig_tree_doct',graphs,{});
+
+
+</script>
+
+{% endblock %}

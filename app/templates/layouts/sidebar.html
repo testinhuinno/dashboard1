@@ -1,0 +1,50 @@
+
+<link rel="icon" type="image/png" href="/static/img/huinno_logo.png">
+
+<div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:250px;border:0.5px solid black;">
+<!--<div class = "d-flex flex-column flex-shrink-0 p-3 text-white bg-light" style = "width:250px;">-->
+    <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+        <h1 class = "fs-2"> MEMO PATCH </h1>
+    </a>
+
+    <hr class = "light-hr">
+
+    <div class = "sidebar-nav light-text" style="height:100%; position:relative;">
+        <ul class="nav nav-pills flex-column mb-auto" id = "nav_accordion">
+            <li class="nav-item">
+                <a class="nav-link light-text" href="#">PATCH HOME</a>
+                <ul>
+<!--                    <li><a class = "dropdown-item light-text" href="{{url_for('func_home')}}">HOME</a>-->
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_overview')}}">OVERVIEW</a>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_report')}}">REPORT</a>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_realtime')}}">REALTIME</a>
+                </ul>
+                <li>
+                <a class="nav-link light-text" href="#">STATUS</a>
+                <ul>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_patch_home', the_period='ALL') }}">BY PERIODS</a>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_by_hospital')}}">BY HOSPITAL</a>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('func_by_doctor')}}">BY DOCTORS</a>
+                </ul>
+            </li>
+
+            <li>
+                <a class="nav-link light-text" href="#">SUB PAGES</a>
+                <ul>
+<!--                    <li><a class = "dropdown-item light-text" href="{{url_for('func_devices_stats')}}">DEVICES LOG</a></li>-->
+<!--                    <li><a class = "dropdown-item light-text" href="{{url_for('func_analytics_devices')}}">DEVICES GRAPHS</a></li>-->
+                    <li><a class = "dropdown-item light-text" href="{{url_for('page_no_test')}}">CANCELED TEST</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a class="nav-link light-text" href="#">OTHER SOURCES</a>
+                <ul>
+                    <li><a class = "dropdown-item light-text" href="{{url_for('google_trends')}}">GOOGLE TRENDS</a>
+                </ul>
+
+            </li>
+
+    </div>
+</div>
+

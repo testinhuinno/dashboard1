@@ -1,0 +1,60 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2">MEMO PATCH OPERATION OVERVIEW</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <h4 class = "fs-4">ACTIVE DEVICES</h4>
+            <div id = "ACTIVE_SID"></div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <h4 class = "fs-4">OPERATIONS</h4>
+            <div id = "MEMO_OPS_COUNT"></div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <h4 class = "fs-4">PRESCIPRION BY HOSPITAL CATEGORY</h4>
+            <div id = "PRSC_BY_HOSPITAL"></div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <h4 class = "fs-4">LEADTIME</h4>
+            <div id = "LEADTIME_STATUS"></div>
+        </div>
+        <div><hr class = "light-hr"></div>
+
+
+    </div>
+</body>
+
+
+<script type="text/javascript">
+
+    var graphs = {{ACTIVE_SID | safe}};
+    Plotly.plot('ACTIVE_SID',graphs,{});
+
+    var graphs = {{PRSC_BY_HOSPITAL | safe}};
+    Plotly.plot('PRSC_BY_HOSPITAL',graphs,{});
+
+    var graphs = {{MEMO_OPS_COUNT | safe}};
+    Plotly.plot('MEMO_OPS_COUNT',graphs,{});
+
+    var graphs = {{LEADTIME_STATUS | safe}};
+    Plotly.plot('LEADTIME_STATUS',graphs,{});
+
+</script>
+
+{% endblock %}

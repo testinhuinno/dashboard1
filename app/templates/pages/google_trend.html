@@ -1,0 +1,35 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div style = " height:100%;overflow-y:scroll;">
+        <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:100%;" >
+            <div class = "container-fluid d-flex">
+                <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                    <h1 class = "fs-2">GOOGLE TRENDS BY COUNTRIES</h1>
+                </a>
+                <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+            </div>
+
+            <hr class = "light-hr">
+
+            <table class="table table-hover">
+                <tr style = "background-color:whitesmoke; font-size:20px;">
+                    {% for col in column_names11 %}
+                    <th><b>{{col | safe}}</b></th>
+                    {% endfor %}
+                </tr>
+                {% for row in row_data11 %}
+                <tr style = "font-size:18px;">
+                    {% for col, row_ in zip(column_names11, row) %}
+                        <td ><b class = "this light-text">{{row_|safe}}</b></td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

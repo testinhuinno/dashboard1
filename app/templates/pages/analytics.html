@@ -1,0 +1,55 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2"> MEMO ANALYTICS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <h2 class = "fs-3">분석 매출 현황</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-12">
+                <h4 class = "fs-5 text-secondary">기간별 병원 매출</h4>
+                <div id = "the_chart3"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <h2 class = "fs-3 light-text">병원 설립구분 및 종별 매출 총합</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary"> REVENUE BY 병원종, 처방기간</h4>
+                <div id = "the_chart2"></div>
+            </div>
+
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">REVENUE BY 설립구분, 병원종</h4>
+                <div id = "the_chart"></div>
+            </div>
+
+        </div>
+
+
+        <div><hr class = "light-hr"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{the_chart | safe}};
+    Plotly.plot('the_chart',graphs,{});
+    var graphs = {{the_chart2 | safe}};
+    Plotly.plot('the_chart2',graphs,{});
+    var graphs = {{the_chart3 | safe}};
+    Plotly.plot('the_chart3',graphs,{});
+
+</script>
+
+{% endblock content%}

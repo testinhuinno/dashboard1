@@ -1,0 +1,52 @@
+.main-flex {
+  display:flex;
+  height:95vh;
+  overflow-x:auto;
+  margin-top:10px;
+}
+.body-top {
+    margin-left:10px;
+    display:flex;
+    border:0.5px solid black;
+
+}
+
+.light-text {
+  color: black;
+  font-weight: normal;
+
+}
+.dark-text {
+  color: white;
+  font-weight: normal;
+}
+.light-hr {
+  color: black;
+}
+.dark-hr {
+  color: white;
+}
+
+.light-mode {
+  background-color: white;
+}
+.dark-mode {
+  background-color: black;
+}
+
+
+
+body{
+  padding:20px 20px;
+}
+.results tr[visible='false'],
+.no-result{
+  display:none;
+}
+.results tr[visible='true']{
+  display:table-row;
+}
+.counter{
+  padding:8px;
+  color:#ccc;
+}

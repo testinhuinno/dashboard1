@@ -1,0 +1,229 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2"> MEMO DEVICES</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="row light-text mb-4">
+            <h4 class = "fs-3">총 누적 출고 현황</h4>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">1) 총 누적 출고수</h2></div>
+                        <a>(unique 처방/출고/교품 수) + (처방/출고/교품 누락수) = 4)+8)+12)</a>
+
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_cumm_cnt}} 기</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">2) 총 사용 기기수</h2></div>
+                        <a>단 한번이라도 처방에 사용된 기기수</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_sid_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{tot_sid_pct}}% out of {{tot_cumm_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">3) 총 미사용 기기수</h2></div>
+                        <a>단 한번도 처방되지 않은 기기수</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{not_use_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{not_use_pct}}% out of {{tot_cumm_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row light-text mb-4">
+            <h4 class = "fs-3">출고/교품 리스트 현황</h4>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">4) 출고 기기수</h2></div>
+                        <a>{{date_today}}까지 집계 기준</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_hosp_cnt}} 기</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">5) 사용 기기수 </h2></div>
+                        <a>출고/교품 리스트 포함된 sid 기준</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_hosp_once_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{tot_hosp_once_pct}}% out of {{tot_hosp_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">6) 미사용 기기수</h2></div>
+                        <a>출고/교품 리스트 포함된 sid 기준 = 3)-8) 괄호 뒷 수</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{hosp_not_use_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{hosp_not_use_pct}}% out of {{tot_hosp_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row light-text mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">7) 총 교품수</h2></div>
+                        <a>누적 교품수 = 8) + 9)</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_repl_cnt}} 기</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">8) 정상 교품수</h2></div>
+                        <a>교품 후 사용 sid수 + 미사용 sid수</a>
+                        <div class="text-end text-secondary">
+                            <h3 class="mb-0">{{diff_cnt}}기 = ({{repl_normal_cnt}} + {{never_cnt}})</h3>
+                        </div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{repl_normal_pct}}% out of {{tot_repl_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">9) 재 교품수</h2></div>
+                        <a>교품 후 재 교품 sid수</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{re_reple_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{re_reple_pct}}% out of {{tot_repl_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row light-text mb-4">
+            <h4 class = "fs-3">교품 반영 후 처방 기기 현황 ⭑</h4>
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">10) 현재 사용 기기수</h2></div>
+                        <a>교품 id 반영후 unique 처방 sid 수 = 5) + 8) 괄호 첫번째 </a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{tot_once_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{tot_once_pct}}% out of {{tot_cumm_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">11) 현재 미사용 기기수</h2></div>
+                        <a>교품 id 반영후 unique 미처방 sid 수 = 3)</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{not_once_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{not_once_pct}}% out of {{tot_cumm_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">12) 마케팅 / 유한 미등록 기기수</h2></div>
+                        <a>교품 리스트에 추가해야할 sid</a>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{no_record_cnt}} 기</h3></div>
+                        <div class="text-end text-secondary">
+                            <span class="text-success text-sm font-weight-bolder">
+                                {{no_record_pct}}% out of {{tot_cumm_cnt}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div><hr class = "light-hr"></div>
+        <h4 class = "fs-3">12) 마케팅 / 유한 미등록 리스트</h4>
+        <div class="col-xl-12 col-sm-6 mb-xl-0", style = " height:400px;overflow:auto;border:1px dotted lightgray;">
+            <table class="table table-hover">
+                <tr style = "background-color:whitesmoke;">
+                    {% for col in sid_col %}
+                    <th scope = "row"><b>{{col | safe}}</b></th>
+                    {% endfor %}
+                </tr>
+                {% for row in sid_val %}
+                <tr>
+                    {% for col, row_ in zip(sid_col, row) %}
+                        <td><b class = "this light-text">{{row_|safe}}</b></td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div><hr class = "light-hr"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{count_chart | safe}};
+    Plotly.plot('count_chart',graphs,{});
+    var graphs = {{hosp_chart | safe}};
+    Plotly.plot('hosp_chart',graphs,{});
+</script>
+
+{% endblock content%}

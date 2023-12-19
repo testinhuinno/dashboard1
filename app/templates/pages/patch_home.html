@@ -1,0 +1,215 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2">{{the_period}} STATUS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 d-flex">
+
+            <form class="form-inline" method="POST" action="{{ url_for('func_patch_home')}}">
+                <div class="d-flex flex-row align-items-center">
+
+            <!-- the_period 값을 위한 숨겨진 필드 -->
+                    <input type="hidden" name="the_period" id="hidden_the_period" value="{{ the_period }}">
+
+                    <button type="button" class="btn btn-light" onclick="setThePeriodAndSubmit('ALL');"><b>ALL</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('YEAR');"><b>YEAR</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('QUARTER');"><b>QUARTER</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('MONTH');"><b>MONTH</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('WEEK');"><b>WEEK</b></button>
+
+                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4" style='margin-left: 1%'>
+                        <div class="form-group d-flex">
+                            <div class="input-group">
+
+                                <select name="the_range" class="selectpicker form-control">
+                                    <option value="">Please Select</option>
+                                    {% for i in range_lst %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-left:20px;">LOAD</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row light-text mt-4 mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">기준자</h2></div>
+                        <div class="text-end text-danger"><h3 class="mb-0">{{cnt_lst[0] | safe}}</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">병원수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{cnt_lst[1] | int}} 건</h3></div>
+                        <div class="text-end text-secondary"> <span class="text-success text-sm font-weight-bolder">{{cnt_lst[6] | round(2) }}%</span> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">의사수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{cnt_lst[2] | int}} 건</h3></div>
+                        <div class="text-end text-secondary"> <span class="text-success text-sm font-weight-bolder">{{cnt_lst[7] | round(2)}}%</span> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row light-text mt-4 mb-4">
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">처방수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{cnt_lst[3] | int}} 건</h3></div>
+                        <div class="text-end text-secondary"> <span class="text-success text-sm font-weight-bolder">{{cnt_lst[8] | round(2)}}%</span> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">업로드 수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{cnt_lst[4] | int}} 건</h3></div>
+                        <div class="text-end text-secondary"> <span class="text-success text-sm font-weight-bolder">{{cnt_lst[9] | round(2)}}%</span> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
+                <div class="card h-100">
+                    <div class="card-header h-100 p-3 pt-2">
+                        <div class="text-start pt-2 text-primary"><h2 class="mb-0">레포트 제공수</h2></div>
+                        <div class="text-end text-secondary"><h3 class="mb-0">{{cnt_lst[5] | int}} 건</h3></div>
+                        <div class="text-end text-secondary"> <span class="text-success text-sm font-weight-bolder">{{cnt_lst[10] | round(2)}}%</span> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <h2 class = "fs-3">PRESCRIPTIONS</h2>
+        <div class="flex row light-text mt-4 mb-4">
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <h4 class = "fs-5">SINCE FIRST PRESCRIPTIONS</h4>
+                <div id = "graph11"></div>
+            </div>
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                <h4 class = "fs-5">BY HOSPITALS & DOCTORS</h4>
+                <div id = "graph22"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mt-4" >
+            <div class = "d-flex">
+                <h4 class = "fs-5">SEARCH BY HOSPITAL</h4>
+                <div class="col-xl-4 form-group pull-right" style = "margin-left:1%;">
+                    <input type="text" class="col-xl-3 search form-control" placeholder="search for the data">
+                    <span class="counter pull-right"></span>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mt-4" style = "height:400px;overflow:auto;border:1px dotted lightgray;">
+                <table class="table table-hover table-bordered results mt-3">
+                    <thead>
+                        <tr style = "background-color:whitesmoke; font-size:20px;">
+                            {% for col in column_names11 %}
+                            <th><b>{{col | safe}}</b></th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    <tbody>
+                        {% for row in row_data11 %}
+                        <tr style = "font-size:18px;">
+                            {% for col, row_ in zip(column_names11, row) %}
+                                <td ><b class = "this light-text">{{row_|safe}}</b></td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+    </div>
+</body>
+
+<script>
+    $(document).ready(function() {
+        // DataTable 초기화
+        $('.results').DataTable();
+</script>
+
+<script>
+function setThePeriodAndSubmit(thePeriodValue) {
+    document.getElementById('hidden_the_period').value = thePeriodValue;
+    document.querySelector('form').submit();
+}
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".search").keyup(function() {
+            var searchTerm = $(this).val();
+            var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+            $.extend($.expr[':'], {'containsi': function(elem, i, match, array) {
+                return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }});
+
+            $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e) {
+                $(this).attr('visible', 'false');
+            });
+
+            $(".results tbody tr:containsi('" + searchSplit + "')").each(function(e) {
+                $(this).attr('visible', 'true');
+            });
+
+            var jobCount = $('.results tbody tr[visible="true"]').length;
+            $('.counter').text(jobCount + ' item');
+
+            if (jobCount == '0') {
+                $('.no-result').show();
+            } else {
+                $('.no-result').hide();
+            }
+        });
+
+        // DataTables 초기화
+        $('.results').DataTable();
+    });
+
+
+    var graphs = {{graph11 | safe}};
+    Plotly.plot('graph11',graphs,{});
+
+    var graphs = {{graph22 | safe}};
+    Plotly.plot('graph22',graphs,{});
+</script>
+
+{% endblock %}

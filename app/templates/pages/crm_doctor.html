@@ -1,0 +1,59 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2 light-text"> CRM DOCTORS</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px;height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 light-text d-flex">
+            <h2 class = "fs-3">TOP 20 DOCTORS BY PERIODS</h2>
+            <div class="row light-text" style = "margin-left:20px;">
+                <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+                    <form class="form-inline" method="POST" action="{{ url_for('func_crm_doctor_select')}}">
+                        <div class="form-group d-flex">
+                            <div class="input-group">
+                                <select name="the_name" class="selectpicker form-control">
+                                  {% for i in the_name_lst %}
+                                  <option value="{{ i }}">{{ i }}</option>
+                                  {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style = "margin-left:20px;" >LOAD</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row light-text">
+            <div class="col-xl-12 mb-4">
+                <div class="chart mb-2" id="the_graph_year"></div>
+                <div class="chart mb-2" id="the_graph_quarter"></div>
+                <div class="chart mb-2" id="the_graph_month"></div>
+                <div class="chart mb-2" id="the_graph_week"></div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{the_graph_year | safe}};
+    Plotly.plot('the_graph_year',graphs,{});
+    var graphs = {{the_graph_quarter | safe}};
+    Plotly.plot('the_graph_quarter',graphs,{});
+    var graphs = {{the_graph_month | safe}};
+    Plotly.plot('the_graph_month',graphs,{});
+    var graphs = {{the_graph_week | safe}};
+    Plotly.plot('the_graph_week',graphs,{});
+
+</script>
+{% endblock content %}

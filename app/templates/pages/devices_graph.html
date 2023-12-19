@@ -1,0 +1,101 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2"> MEMO DEVICES</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <h2 class = "fs-3">처방 중 병원</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">처방 병원</h4>
+                <div id = "in_chart"></div>
+            </div>
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">미처방</h4>
+                <div id = "out_chart"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <h2 class = "fs-3">기간별 출고 현황</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-12">
+                <h4 class = "fs-5 text-secondary">출고 및 누적 출고 현황</h4>
+                <div id = "bar_monthly_cnt"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-12">
+                <h4 class = "fs-5 text-secondary"> 병원종별 출고 현황</h4>
+                <div id = "bar_hospital_type"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <h2 class = "fs-3">병원종별 출고 현황</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">병원종별 누적 출고 비율</h4>
+                <div id = "pie_hospital_pct"></div>
+            </div>
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">병원별 출고 현황</h4>
+                <div id = "pie_hospital_type"></div>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+        <h2 class = "fs-3">기기 funnel 현황</h2>
+        <div class="container-fluid d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">출고 수 퍼널</h4>
+                <div id = "funnel_cnt"></div>
+            </div>
+            <div class = "col-xl-6">
+                <h4 class = "fs-5 text-secondary">출고 비율 퍼널</h4>
+                <div id = "funnel_pct"></div>
+            </div>
+        </div>
+
+
+
+        <div><hr class = "light-hr"></div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var graphs = {{bar_monthly_cnt | safe}};
+    Plotly.plot('bar_monthly_cnt',graphs,{});
+    var graphs = {{bar_hospital_type | safe}};
+    Plotly.plot('bar_hospital_type',graphs,{});
+
+    var graphs = {{pie_hospital_pct | safe}};
+    Plotly.plot('pie_hospital_pct',graphs,{});
+    var graphs = {{pie_hospital_type | safe}};
+    Plotly.plot('pie_hospital_type',graphs,{});
+
+    var graphs = {{funnel_cnt | safe}};
+    Plotly.plot('funnel_cnt',graphs,{});
+    var graphs = {{funnel_pct | safe}};
+    Plotly.plot('funnel_pct',graphs,{});
+
+    var graphs = {{in_chart | safe}};
+    Plotly.plot('in_chart',graphs,{});
+    var graphs = {{out_chart | safe}};
+    Plotly.plot('out_chart',graphs,{});
+</script>
+
+{% endblock content%}
