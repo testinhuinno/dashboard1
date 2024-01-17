@@ -1,0 +1,141 @@
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+<body>
+
+    <div class = "d-flex flex-column flex-shrink-0 p-3 light-mode light-text" style = "width:100%;" >
+        <div class = "container-fluid d-flex">
+            <a class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto light-text text-decoration-none">
+                <h1 class = "fs-2">{{the_period}}LY STATUS : {{the_range}}</h1>
+            </a>
+            <img class = "rounded float-end" src="{{url_for('static', filename='img/huinno_logo.png')}}" style = "width:311px; height:40px;">
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4 d-flex">
+
+            <form class="form-inline" method="POST" action="{{ url_for('func_report')}}">
+                <div class="d-flex flex-row align-items-center">
+
+            <!-- the_period 값을 위한 숨겨진 필드 -->
+                    <input type="hidden" name="the_period" id="hidden_the_period" value="{{ the_period }}">
+
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('YEAR');"><b>YEAR</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('QUARTER');"><b>QUARTER</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('MONTH');"><b>MONTH</b></button>
+                    <button type="button" class="btn btn-light" style='margin-left:0.5%' onclick="setThePeriodAndSubmit('WEEK');"><b>WEEK</b></button>
+
+                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4" style='margin-left: 1%'>
+                        <div class="form-group d-flex">
+                            <div class="input-group">
+
+                                <select name="the_range" class="selectpicker form-control">
+                                    <option value="">Please Select</option>
+                                    {% for i in range_lst %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="margin-left:20px;">LOAD</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="flex row light-text mt-4 mb-4">
+            <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+
+                <table class="table">
+                    <thead>
+                        <tr class="table table-dark">
+                            <th scope="col">기간</th>
+                            <th scope="col">병원종수</th>
+                            <th scope="col">병원수</th>
+                            <th scope="col">의사수</th>
+                            <th scope="col">처방수</th>
+                            <th scope="col">업로드수</th>
+                            <th scope="col">레포트수</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{df_week_last[0] | safe }}</td>
+                            <td>{{df_week_last[1] | int }}</td>
+                            <td>{{df_week_last[2] | int }}</td>
+                            <td>{{df_week_last[3] | int }}</td>
+                            <td><b>{{df_week_last[4] | int }}</b></td>
+                            <td><b>{{df_week_last[5] | int }}</b></td>
+                            <td><b>{{df_week_last[6] | int }}</b></td>
+                        </tr>
+
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+        <div class="d-flex col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+                <h4 class = "fs-5">PRESCRIPTIONS</h4>
+                <div id = "GRAPH_PRSC"></div>
+            </div>
+            <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+                <h4 class = "fs-5">REPORT REVENUES</h4>
+                <div id = "GRAPH_REV"></div>
+            </div>
+        </div>
+
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
+            <h4 class = "fs-5">BY DOCTORS</h4>
+            <div id = "graph_last_week_doct"></div>
+
+            <h4 class = "fs-5 mt-4">PRESCRIPTIONS BY PERIOD</h4>
+            <div id = "GRAPH_ANI"></div>
+
+            <h4 class = "fs-5">병원별 입점 시기</h4>
+            <div id = "GRAPH_FRIST_IN22"></div>
+
+            <h4 class = "fs-5">병원별 입점 시기 및 처방수</h4>
+            <div id = "GRAPH_FIRST_IN"></div>
+
+        </div>
+
+        <div><hr class = "light-hr"></div>
+
+
+    </div>
+</body>
+
+
+<script>
+
+    var graphs = {{GRAPH_PRSC | safe}};
+    Plotly.plot('GRAPH_PRSC',graphs,{});
+
+    var graphs = {{GRAPH_REV | safe}};
+    Plotly.plot('GRAPH_REV',graphs,{});
+
+    var graphs = {{GRAPH_ANI | safe}};
+    Plotly.plot('GRAPH_ANI',graphs,{});
+
+    var graphs = {{graph_last_week_doct | safe}};
+    Plotly.plot('graph_last_week_doct',graphs,{});
+
+    var graphs = {{GRAPH_FIRST_IN | safe}};
+    Plotly.plot('GRAPH_FIRST_IN',graphs,{});
+
+    var graphs = {{GRAPH_FRIST_IN22 | safe}};
+    Plotly.plot('GRAPH_FRIST_IN22',graphs,{});
+
+    function setThePeriodAndSubmit(thePeriodValue) {
+        document.getElementById('hidden_the_period').value = thePeriodValue;
+        document.querySelector('form').submit();
+    }
+
+</script>
+
+{% endblock %}
